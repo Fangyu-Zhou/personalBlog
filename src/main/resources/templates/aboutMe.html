@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About me</title>
@@ -10,7 +10,7 @@
 <body>
 
 <!--Navigation Part-->
-<nav class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav  class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Archives</h2>
@@ -78,7 +78,7 @@
 
 <!--Footer-->
 
-<footer class="ui inverted vertical segment m-padded-footer">
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-footer">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
             <div class="three wide column">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tags</title>
@@ -307,7 +307,7 @@
 
 <!--Footer-->
 
-<footer class="ui inverted vertical segment m-padded-footer">
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-footer">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
             <div class="three wide column">

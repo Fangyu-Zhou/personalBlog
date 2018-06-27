@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Detail</title>
@@ -456,7 +456,7 @@ h5,h6{font-size:1em;}
                 </button>
                 <div class="ui custom popup transition hidden">
                     <div class="ui image">
-                        <img src="../static/imgs/wechat.jpg" alt="" class="ui rounded boarded image" style="width: 120px">
+                        <img src="../static/imgs/wechat.jpg" th:src="@{imgs/wechat.jpg}" alt="" class="ui rounded boarded image" style="width: 120px">
                     </div>
                 </div>
             </div>
@@ -472,7 +472,7 @@ h5,h6{font-size:1em;}
                     </ui>
                 </div>
                 <div class="ui three wide column">
-                    <img src="../static/imgs/wechat.jpg" alt="" class="ui rounded bordered floated image" style="width: 110px;">
+                    <img src="../static/imgs/wechat.jpg" th:src="@{imgs/wechat.jpg}" alt="" class="ui rounded bordered floated image" style="width: 110px;">
                 </div>
             </div>
         </div>
@@ -602,7 +602,7 @@ h5,h6{font-size:1em;}
 
 
 <!--Footer-->
-<footer class="ui inverted vertical segment m-padded-footer">
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-footer">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
             <div class="three wide column">
@@ -637,19 +637,22 @@ h5,h6{font-size:1em;}
     </div>
 </footer>
 
-<!--cdn's-->
-<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<div th:replace="_fragments :: scripts">
+    <!--cdn's-->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
 
-<!--lib-->
-<script src="../static/lib/prism/prism.js"></script>
-<script src="../static/lib/tocbot/tocbot.min.js"></script>
-<script src="../static/lib/qrcode/qrcode.min.js"></script>
+    <!--lib-->
+    <script src="../static/lib/prism/prism.js"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js"></script>
+</div>
+
 
 <!--js code-->
 <script>
