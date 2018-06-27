@@ -11,10 +11,11 @@ public class IndexController {
     @GetMapping("/")
     public String index() {
 //        int i = 9 / 0;
-        String blog = null;
-        if (blog == null) {
-            throw new NotFoundException("*******This blog is no longer here********");
-        }
+//        String blog = null;
+//        if (blog == null) {
+//            throw new NotFoundException("*******This blog is no longer here********");
+//        }
+        System.out.println("-----------------Index------------------");
         return "index";
     }
 }
