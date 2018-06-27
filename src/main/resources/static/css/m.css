@@ -1,0 +1,181 @@
+body {
+    background: url("../imgs/tic-tac-toe.png");
+}
+
+/**************padding***************/
+.m-padded-tiny {
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+    padding-left: 0.2em !important;
+    padding-right: 0.2em !important;
+}
+
+.m-padded-mini {
+    padding-top: 0.3em !important;
+    padding-bottom: 0.3em !important;
+    padding-left: 0.3em !important;
+    padding-right: 0.3em !important;
+}
+
+.m-padded-tblr-M {
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+}
+
+.m-padded-tb-mini {
+    padding-top: 0.3em !important;
+    padding-bottom: 0.3em !important;
+}
+.m-padded-M {
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+}
+.m-padded-L {
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+}
+.m-padded-XL {
+    padding-top: 3em !important;
+    padding-bottom: 3em !important;
+}
+.m-padded-XXL {
+    padding-top: 4em !important;
+    padding-bottom: 4em !important;
+}
+.m-padded-footer {
+    padding-top: 5em !important;
+    padding-bottom: 5em !important;
+}
+
+.m-padded-lr-responsive {
+    padding-left: 4em !important;
+    padding-right: 4em !important;
+}
+
+/**************margin***************/
+.m-margin-tiny {
+    margin-top:0.2em !important;
+    margin-bottom: 0.2em !important;
+}
+
+.m-margin-mini {
+    margin-top:0.4em !important;
+    margin-bottom: 0.4em !important;
+}
+
+.m-margin-top-small {
+    margin-top:0.5em !important;
+}
+
+.m-margin-top-M {
+    margin-top:1em !important;
+}
+
+.m-margin-top-L {
+    margin-top:2em !important;
+}
+
+.m-margin-bottom-small {
+    margin-bottom: 0.5em !important;
+}
+
+.m-margin-toRight {
+    margin-left: 5em;
+}
+
+/***************Text****************/
+.m-text-thin {
+    font-weight: 200 !important;
+}
+
+.m-text-slight-spaced {
+    letter-spacing: 0.5px !important;
+}
+
+.m-text-spaced {
+    letter-spacing: 1px !important;
+}
+
+.m-text-lined {
+    line-height: 1.8 !important;
+}
+
+.m-text-font {
+    font-family: "Arial";
+    text-align: justify;
+}
+
+.m-opacity-mini {
+    opacity: 0.7 !important;
+
+}
+.m-opacity-tiny {
+    opacity: 0.6 !important;
+
+}
+
+.m-text-color-black {
+    color: #333;
+}
+
+
+/**************display****************/
+
+.m-dis-inline-block {
+    display: inline-block !important;
+}
+
+.m-right-top {
+    position: absolute;
+    top: 0em;
+    right: 0em;
+}
+.m-mobile-show {
+    display: none !important;
+}
+
+
+@media screen and (max-width: 768px) {
+    .m-mobile-hide {
+        display: none !important;
+    }
+    .m-mobile-show {
+        display: block !important;
+    }
+    .m-padded-lr-responsive {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .m-padded-lr-clear {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .m-mobile-wide {
+        width: 100% !important;
+    }
+}
+
+/**************container******************/
+
+.m-container-small {
+    max-width: 60em;
+    margin: auto;
+}
+
+/**********shadow***********/
+.m-shadow-small {
+    -webkit-box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
+    -moz-box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important;
+}
+
+/********position**********/
+.m-position-buttons {
+    z-index: 2;
+    position: fixed !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
