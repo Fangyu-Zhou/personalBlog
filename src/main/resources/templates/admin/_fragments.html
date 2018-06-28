@@ -18,7 +18,7 @@
 <nav th:fragment="menu(n)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
-            <h2 class="ui teal header item">Manage</h2>
+            <h2 class="ui teal header item">Blog</h2>
             <a href="#" class="m-item item m-mobile-hide" th:classappend="${n==1}? 'active'"><i class="home icon"></i>Blogs</a>
             <a href="#" class="m-item item m-mobile-hide" th:classappend="${n==2}? 'active'"><i class="idea icon"></i>Topic</a>
             <a href="#" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'"><i class="tags icon"></i>Tag</a>
