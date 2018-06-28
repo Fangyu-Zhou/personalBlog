@@ -20,7 +20,7 @@ public class loginController {
     private UserService userService;
 
     @GetMapping
-    public String loginpage() {
+    public String loginPage() {
         return "admin/login";
     }
 
@@ -29,7 +29,9 @@ public class loginController {
                         @RequestParam String password,
                         HttpSession session,
                         RedirectAttributes attributes) {
+
         User user = userService.checkuser(username, password);
+
         if (user != null) {
             user.setPassword(null); /*这一步是为了防止密码泄露，因为后面的session可以获得该user的信息同时包括password，所以将其设置为不可获得 */
 
