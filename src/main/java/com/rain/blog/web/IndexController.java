@@ -29,4 +29,15 @@ public class IndexController {
         System.out.println("-----------------blog Detail------------------");
         return "blogDetail";
     }
+
+//    @GetMapping("/adminInfo")
+//    public String login() {
+////        int i = 9 / 0;
+////        String blog = null;
+////        if (blog == null) {
+////            throw new NotFoundException("*******This blog is no longer here********");
+////        }
+//        System.out.println("--------------Login-------------------");
+//        return "/admin/manage";
+//    }
 }

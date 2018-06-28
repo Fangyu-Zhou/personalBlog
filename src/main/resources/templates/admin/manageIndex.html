@@ -3,14 +3,14 @@
 <head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage</title>
+    <title>Welcome</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="../../static/css/m.css">
 </head>
 <body>
 
 <!--Navigation Part-->
-<nav th:replace="admin/_fragments :: menu(1)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="admin/_fragments :: menu(0)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Manage</h2>
@@ -48,73 +48,12 @@
 <!--Main Content-->
 <div class="m-container-small m-padded-XXL">
     <div class="ui container">
-        <form action="#" method="post" class="ui segment form">
-            <div class="inline fields">
-                <div class="seven wide field">
-                    <input type="text" name="title" placeholder="Title">
-                </div>
-                <div class="four wide field">
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="topic">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Topics</div>
-                        <div class="menu">
-                            <div class="item" data-value="1">Learning</div>
-                            <div class="item" data-value="2">Casual</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="three wide field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" id="recommend" name="recommend">
-                        <label for="recommend">Recommended</label>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <button class="ui mini teal basic button"><i class="search icon"></i>Search</button>
-                </div>
-            </div>
-        </form>
-
-        <div class="ui teal segment">
-            <table class="ui table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Topic</th>
-                    <th>Recommended</th>
-                    <th>Update time</th>
-                    <th>Operation</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>How to Learn Java</td>
-                    <td>Learning</td>
-                    <td>Yes</td>
-                    <td>June-23-2018 09:30</td>
-                    <td>
-                        <a href="#" class="ui mini teal basic button">Edit</a>
-                        <a href="#" class="ui mini red basic button">Remove</a>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th colspan="6">
-                        <div class="ui mini pagination menu">
-                            <a class="item">Back</a>
-                            <a class="item">Next</a>
-                        </div>
-                        <a href="#" class="ui right floated teal basic button"><i class="ui add icon"></i>Add</a>
-                    </th>
-                </tr>
-                </tfoot>
-            </table>
+        <div class="ui success large message">
+            <h3>おかえり</h3>
+            <p> Rain </p>
+            <p>Welcome back</p>
         </div>
+        <img src="https://picsum.photos/1000/400?image=1067" alt="" class="ui fluid rounded image">
     </div>
 </div>
 
@@ -156,12 +95,14 @@
 </footer>
 
 
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
-<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<div th:replace="_fragments :: scripts">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+</div>
 
 <script>
     $('.menu.toggle').click(function () {
