@@ -2,6 +2,7 @@ package com.rain.blog.service;
 
 import com.rain.blog.classes.User;
 import com.rain.blog.dao.UserRepository;
+import com.rain.blog.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class UserServiceImplement implements UserService {
 
     @Override
     public User checkuser(String username, String password) {
-        User user = userRepository.findByUsernameAndPassword(username, password);
+        User user = userRepository.findByUsernameAndPassword(username, MD5Utils.code(password));
         return user;
 
     }
