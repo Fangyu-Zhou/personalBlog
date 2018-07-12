@@ -10,6 +10,7 @@ public class Topic {
     @Id
     @GeneratedValue
     private Long id;
+
     private String name;
 
     /*数据库关系维护*/
