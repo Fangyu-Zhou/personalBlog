@@ -20,4 +20,7 @@ public interface TopicService {
     /*删除topic的方法*/
     void deleteTopic(Long id);
 
+    /*通过名称返回Topic*/
+    Topic getTopicByName(String name);
+
 }

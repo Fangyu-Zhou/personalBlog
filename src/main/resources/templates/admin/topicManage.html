@@ -39,8 +39,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="active teal item">List</a>
-            <a href="#" class="item">Publish</a>
+            <a href="#" th:href="@{/admin/topics}" class="active teal item">List</a>
+            <a href="#" th:href="@{/admin/topics/input}" class="item">Add</a>
         </div>
     </div>
 </div>
@@ -48,7 +48,10 @@
 <!--Main Content-->
 <div class="m-container-small m-padded-XXL">
     <div class="ui container">
-
+        <div class="ui success mini message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <p th:text="${message}"></p>
+        </div>
         <div class="ui teal segment">
             <table class="ui table">
                 <thead>
@@ -136,6 +139,14 @@
     });
 
     $('.ui.dropdown').dropdown();
+
+    /*这里的JS是用来当点击时把message对话框关闭用的*/
+    $('.message .close').on('click', function () {
+        $(this)
+            .closest('.message')
+            .transition('fade');
+    });
+
 </script>
 </body>
 </html>

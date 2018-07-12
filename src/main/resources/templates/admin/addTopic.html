@@ -40,8 +40,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="item">List</a>
-            <a href="#" class="active teal item">Publish</a>
+            <a href="#" th:href="@{/admin/topics}" class="item">List</a>
+            <a href="#" th:href="@{/admin/topics/input}" class="active teal item">Add</a>
         </div>
     </div>
 </div>
@@ -49,16 +49,25 @@
 <!--Main Content-->
 <div class="m-container-small m-padded-XXL">
     <div class="ui container">
-        <form action="#" method="post" th:action="@{/admin/topics}" class="ui form">
+        <form action="#" method="post" th:object="${topic}" th:action="*{id} == null ? @{/admin/topics} : @{/admin/topics/{id}(id=*{id})}"  class="ui form"> <!--这里的th:object是从后端拿到的一个topic变量，这里的topic变量是从后端model类传递过来的-->
+            <input type="hidden" name="id" th:value="*{id}">
             <!--Topic-->
             <div class="field">
                 <div class="ui left labeled input">
                     <div class="ui teal basic label">New topic</div>
-                    <input type="text" name="name" placeholder="Enter Topic">
+                    <input type="text" name="name" placeholder="Enter Topic" th:value="*{name}"><!--这里是吧之前拿到的topic boject中的name赋值给域中的name-->
                 </div>
             </div>
 
-            <div class="ui error message"></div>
+            <!--Error Message-->
+            <!--<div class="ui message"></div>-->
+            <!--这个注解的意义在于这是thymleaf模板的注解 在静态网页中无效 在模板渲染时才会生效 主要用于后端-->
+            <!--/*/
+            <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                <i class="close icon"></i>
+                <p th:errors="*{name}"></p>
+            </div>
+            /*/-->
             <!--buttons-->
             <div class="ui right aligned container">
                 <button class="ui button" type="button" onclick="window.history.go(-1)">Back</button>
@@ -133,13 +142,14 @@
 
     $('.ui.dropdown').dropdown();
 
+    /*前端校验输入不能为空（这里不用，用的时后端校验）*/
     $('.ui.form').form({
         fields: {
             title : {
-                identifier: 'title',
+                identifier: 'name123',
                 rules: [{
                     type: 'empty',
-                    prompt: 'Title can not be empty!'
+                    prompt: 'please enter a correct topic!'
                 }]
             }
         }

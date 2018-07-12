@@ -41,6 +41,7 @@ public class TopicServiceImplement implements TopicService {
         if (t == null) {
             throw new NotFoundException("Topic not found!");
         }
+        /*覆盖操作*/
         BeanUtils.copyProperties(topic, t);
 
         return topicRepository.save(t);
@@ -50,5 +51,10 @@ public class TopicServiceImplement implements TopicService {
     @Override
     public void deleteTopic(Long id) {
         topicRepository.deleteById(id);
+    }
+
+    @Override
+    public Topic getTopicByName(String name) {
+        return topicRepository.findByName(name);
     }
 }
