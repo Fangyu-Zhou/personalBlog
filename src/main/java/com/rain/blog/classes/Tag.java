@@ -1,6 +1,7 @@
 package com.rain.blog.classes;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -10,6 +11,8 @@ public class Tag {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotBlank(message = "Tag name cannot be empty!") /*这里是给数据库中的表加限制条件 不能为空*/
     private String name;
 
     /*数据库关系维护*/

@@ -53,6 +53,7 @@ public class TopicServiceImplement implements TopicService {
         topicRepository.deleteById(id);
     }
 
+    @Transactional
     @Override
     public Topic getTopicByName(String name) {
         return topicRepository.findByName(name);

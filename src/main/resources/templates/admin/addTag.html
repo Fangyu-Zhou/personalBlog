@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Tag</title>
+    <link rel="stylesheet" href="../../static/lib/editorMD/css/editormd.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/m.css">
+</head>
+<body>
+
+<!--Navigation Part-->
+<nav th:replace="admin/_fragments :: menu(3)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
+            <h2 class="ui teal header item">Publish</h2>
+            <a href="#" class="active m-item item m-mobile-hide"><i class="home icon"></i>Blogs</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>Topic</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tag</a>
+            <div class="m-item m-mobile-hide right menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img class="ui avatar image" src="../../static/imgs/wechat.jpg">
+                        Rain
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<!--secondary nav-->
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/tags}" class="item">List</a>
+            <a href="#" th:href="@{/admin/tags/input}" class="active teal item">Add</a>
+        </div>
+    </div>
+</div>
+
+<!--Main Content-->
+<div class="m-container-small m-padded-XXL">
+    <div class="ui container">
+        <form action="#" method="post" th:object="${tag}" th:action="*{id} == null ? @{/admin/tags} : @{/admin/tags/{id}(id=*{id})}"  class="ui form"> <!--这里的th:object是从后端拿到的一个topic变量，这里的topic变量是从后端model类传递过来的-->
+            <input type="hidden" name="id" th:value="*{id}">
+            <!--Tag-->
+            <div class="field">
+                <div class="ui left labeled input">
+                    <div class="ui teal basic label">New Tag</div>
+                    <input type="text" name="name" placeholder="Enter Tag" th:value="*{name}"><!--这里是吧之前拿到的topic boject中的name赋值给域中的name-->
+                </div>
+            </div>
+
+            <!--Error Message-->
+            <!--<div class="ui message"></div>-->
+            <!--这个注解的意义在于这是thymleaf模板的注解 在静态网页中无效 在模板渲染时才会生效 主要用于后端-->
+            <!--/*/
+            <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                <i class="close icon"></i>
+                <p th:errors="*{name}"></p>
+            </div>
+            /*/-->
+            <!--buttons-->
+            <div class="ui right aligned container">
+                <button class="ui button" type="button" onclick="window.history.go(-1)">Back</button>
+                <button class="ui teal submit button">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Footer-->
+
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-footer">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../../static/imgs/wechat.jpg" class="ui rounded image" style="width: 120px;" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h3 class="inverted header m-text-spaced">Latest Blog</h3>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">blog 1</a>
+                    <a href="#" class="item">blog 1</a>
+                    <a href="#" class="item">blog 1</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h3 class="inverted header m-text-spaced">Contact me</h3>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-padded-M">Email: fangyu22@ufl.edu</a>
+                    <a href="#" class="item">Wechat/QQ: 397970458</a>
+                </div>
+            </div>
+            <div class="five wide column">
+                <h3 class="inverted header m-text-spaced">This Blog</h3>
+                <p class="m-opacity-mini">About this blog</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <P class="m-text-spaced m-opacity-tiny">Copyright © 2017 - 2018 Rain Designed by Fangyu Zhou</P>
+    </div>
+</footer>
+
+
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
+<script src="../../static/lib/editorMD/editormd.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>-->
+
+<script type="text/javascript">
+    var contentEditor;
+    $(function() {
+        contentEditor = editormd("md-content", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "../static/lib/editorMD/lib/"
+        });
+    });
+</script>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown();
+
+    /*前端校验输入不能为空（这里不用，用的时后端校验）*/
+    $('.ui.form').form({
+        fields: {
+            title : {
+                identifier: 'name123',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'please enter a correct topic!'
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>
