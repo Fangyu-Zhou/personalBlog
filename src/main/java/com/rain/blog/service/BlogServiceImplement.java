@@ -11,12 +11,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,6 +33,7 @@ public class BlogServiceImplement implements BlogService {
         return blogRepository.findByid(id);
     }
 
+    @Transactional
     @Override
     public Page<Blog> blogList(Pageable pageable, BlogQuery blog) {
         return blogRepository.findAll(new Specification<Blog>() {
@@ -38,14 +41,14 @@ public class BlogServiceImplement implements BlogService {
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (blog.getTitle() != null && "".equals(blog.getTitle())) {
-                    predicates.add(criteriaBuilder.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
+                if (blog.getTitle() != null && !"".equals(blog.getTitle())) {
+                    predicates.add(criteriaBuilder.like(root.<String>get("title"), "%"+ blog.getTitle()+"%"));
                 }
                 if (blog.getTopicId() != null) {
                     predicates.add(criteriaBuilder.equal(root.<Topic>get("topic").get("id"), blog.getTopicId()));
                 }
                 if (blog.isRecommend()) {
-                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("isRecommended"), blog.isRecommend()));
+                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
                 }
 
                 /*查询语句SQL*/
@@ -55,11 +58,17 @@ public class BlogServiceImplement implements BlogService {
         }, pageable);
     }
 
+    @Transactional
     @Override
     public Blog saveBlog(Blog blog) {
+        /*新增一条blog需要给一些成员变量的初始值*/
+        blog.setCreateTime(new Date());
+        blog.setUpdateTime(new Date());
+        blog.setViews(0);
         return blogRepository.save(blog);
     }
 
+    @Transactional
     @Override
     public Blog updateBlog(Long id, Blog blog) {
         Blog blog1 = blogRepository.findByid(id);
@@ -71,6 +80,7 @@ public class BlogServiceImplement implements BlogService {
         return blogRepository.save(blog1);
     }
 
+    @Transactional
     @Override
     public void deleteBlog(Long id) {
         blogRepository.deleteById(id);

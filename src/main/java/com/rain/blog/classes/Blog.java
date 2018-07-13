@@ -1,5 +1,7 @@
 package com.rain.blog.classes;
 
+import org.springframework.context.annotation.Lazy;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +14,9 @@ public class Blog {
     private Long id;
 
     private String title;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private String content;
     private String imgUrl;
     private String original;
@@ -19,8 +24,8 @@ public class Blog {
     private boolean tips;
     private boolean canShare;
     private boolean canComment;
-    private boolean isPublished;
-    private boolean isRecommended;
+    private boolean published;
+    private boolean recommend;
 
     @Temporal(TemporalType.TIMESTAMP) /*这里需要将时间类型设置成和数据库中兼容的格式*/
     private Date createTime;
@@ -36,6 +41,9 @@ public class Blog {
     private User user;
     @OneToMany(mappedBy = "blog")  /*Many一端是关系的维护端, 理解为One一端中对应*/
     private List<Comment> comments;
+
+    @Transient
+    private String tagIds;
 
     public Blog() {
 
@@ -114,19 +122,19 @@ public class Blog {
     }
 
     public boolean isPublished() {
-        return isPublished;
+        return published;
     }
 
-    public void setPublished(boolean published) {
-        isPublished = published;
+    public void setPublished(boolean ispublished) {
+        published = ispublished;
     }
 
-    public boolean isRecommended() {
-        return isRecommended;
+    public boolean isRecommend() {
+        return recommend;
     }
 
-    public void setRecommended(boolean recommended) {
-        isRecommended = recommended;
+    public void setRecommend(boolean recommended) {
+        recommend = recommended;
     }
 
     public Date getCreateTime() {
@@ -177,6 +185,14 @@ public class Blog {
         this.comments = comments;
     }
 
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
+
     @Override
     public String toString() {
         return "Blog{" +
@@ -189,8 +205,8 @@ public class Blog {
                 ", tips=" + tips +
                 ", canShare=" + canShare +
                 ", canComment=" + canComment +
-                ", isPublished=" + isPublished +
-                ", isRecommended=" + isRecommended +
+                ", isPublished=" + published +
+                ", isRecommended=" + recommend+
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

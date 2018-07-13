@@ -48,31 +48,38 @@
 <!--Main Content-->
 <div class="m-container-small m-padded-XXL">
     <div class="ui container">
+        <div class="ui success mini message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <p th:text="${message}"></p>
+        </div>
         <div class="ui segment form">
             <input type="hidden" name="page"> <!--这里是取出form表单中的page变量给分页提供帮助-->
             <div class="inline fields">
-                <div class="seven wide field">
+                <div class="field">
                     <input type="text" name="title" placeholder="Title">
                 </div>
-                <div class="four wide field">
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="topicId">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Topics</div>
-                        <div class="menu">
-                            <div th:each="topic : ${topics}" class="item" data-value="1" th:data-value="${topic.id}" th:text="${topic.name}">Learning</div>
-                            <!--<div class="item" data-value="2">Casual</div>-->
+                <div class="field">
+                    <div class="ui labeled action input">
+                        <div class="ui topic selection dropdown">
+                            <input type="hidden" name="topicId">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Topics</div>
+                            <div class="menu">
+                                <div th:each="topic : ${topics}" class="item" data-value="1" th:data-value="${topic.id}" th:text="${topic.name}">Learning</div>
+                                <!--<div class="item" data-value="2">Casual</div>-->
+                            </div>
                         </div>
+                        <button id="clear-button" class="ui basic orange compact clear button">clear</button>
                     </div>
                 </div>
-                <div class="three wide field">
+                <div class="field">
                     <div class="ui checkbox">
                         <input type="checkbox" id="recommend" name="recommend">
                         <label for="recommend">Recommended</label>
                     </div>
                 </div>
 
-                <div class="field">
+                <div class="two wide field">
                     <button type="button" id="search-button" class="ui mini teal basic button"><i class="search icon"></i>Search</button>
                 </div>
             </div>
@@ -86,6 +93,7 @@
                     <th>Title</th>
                     <th>Topic</th>
                     <th>Recommended</th>
+                    <th>Status</th>
                     <th>Update time</th>
                     <th>Operation</th>
                 </tr>
@@ -96,6 +104,7 @@
                     <td th:text="${blog.title}">How to Learn Java</td>
                     <td th:text="${blog.topic.name}">Learning</td>
                     <td th:text="${blog.recommend} ? 'Yes' : 'No'">Yes</td>
+                    <td th:text="${blog.published} ? 'Published' : 'Draft'">Yes</td>
                     <td th:text="${blog.updateTime}">June-23-2018 09:30</td>
                     <td>
                         <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini teal basic button">Edit</a>
@@ -105,12 +114,12 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th colspan="6">
+                    <th colspan="7">
                         <div class="ui mini pagination menu" th:if="${page.totalPages} > 1">
                             <a onclick="page(this)" th:attr="data-page=${page.number} - 1" class="item" th:unless="${page.first}">Back</a>
                             <a onclick="page(this)" th:attr="data-page=${page.number} + 1" class="item" th:unless="${page.last}">Next</a>
                         </div>
-                        <a href="#" class="ui right floated teal basic button"><i class="ui add icon"></i>Add</a>
+                        <a href="#" th:href="@{/admin/blogs/publish}" class="ui right floated teal basic button"><i class="ui add icon"></i>Add</a>
                     </th>
                 </tr>
                 </tfoot>
@@ -172,7 +181,15 @@
     $('.ui.dropdown').dropdown();
 
     $("#search-button").click(function () {
+        $("[name='page']").val(0);
         loaddata();
+    });
+
+    /*这里的JS是用来当点击时把message对话框关闭用的*/
+    $('.message .close').on('click', function () {
+        $(this)
+            .closest('.message')
+            .transition('fade');
     });
 
     /*这个JS是将page的值在页面之间传递*/
@@ -191,6 +208,14 @@
             page : $("[name='page']").val()
         });
     }
+
+    $('#clear-button')
+        .on('click', function () {
+            $('.ui.topic.dropdown')
+                .dropdown('clear');
+
+        });
+
 </script>
 </body>
 </html>

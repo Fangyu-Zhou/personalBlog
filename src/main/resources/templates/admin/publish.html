@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publish</title>
@@ -11,11 +11,11 @@
 <body>
 
 <!--Navigation Part-->
-<nav class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="admin/_fragments :: menu(1)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Publish</h2>
-            <a href="#" class="active m-item item m-mobile-hide"><i class="home icon"></i>Blogs</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>Blogs</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>Topic</a>
             <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tag</a>
             <div class="m-item m-mobile-hide right menu">
@@ -47,9 +47,10 @@
 </div>
 
 <!--Main Content-->
-<div class="m-container-small m-padded-XXL">
+<div class="m-padded-XXL">
     <div class="ui container">
-        <form action="#" method="post" class="ui form">
+        <form id="blog-form" action="#" th:action="@{/admin/blogs}" method="post" class="ui form">
+            <input type="hidden" name="published">
             <!--Title-->
             <div class="required field">
                 <div class="ui left labeled input">
@@ -68,17 +69,47 @@
             </div>
 
             <!--Content-->
-            <div class="field">
+            <div class="required field">
                 <div id="md-content" style="z-index: 1 !important;">
                     <textarea name="content" placeholder="Edit contents here...." style="display: none"></textarea>
                 </div>
             </div>
 
+            <div class="two fields">
+                <div class="required field">
+                    <div class="ui left labeled action input">
+                        <label class="ui compact teal basic label">Topic</label>
+                        <div class="ui fluid selection dropdown">
+                            <input type="hidden" name="topic.id">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Topic</div>
+                            <div class="menu">
+                                <div th:each="topic : ${topics}" class="item" data-value="1" th:data-value="${topic.id}" th:text="${topic.name}">Learning</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left labeled action input">
+                        <label class="ui compact teal basic label">Tag</label>
+                        <div class="ui fluid selection multiple search dropdown">
+                            <input type="hidden" name="tagIds">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Tag</div>
+                            <div class="menu">
+                                <div th:each="tag : ${tags}" class="item" data-value="1" th:data-value="${tag.id}" th:text="${tag.name}">java</div>
+                                <!--<div class="item" data-value="2">elixir</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!--image url-->
-            <div class="field">
+            <div class="required field">
                 <div class="ui left labeled input">
                     <div class="ui teal basic label">Image Url</div>
-                    <input type="text" name="imageUrl" placeholder="Url here">
+                    <input type="text" name="imgUrl" placeholder="Url here">
                 </div>
             </div>
 
@@ -93,8 +124,8 @@
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="shareInfo" name="shareInfo" class="hidden">
-                        <label for="shareInfo">Share Info</label>
+                        <input type="checkbox" id="canShare" name="canShare" class="hidden">
+                        <label for="canShare">Share Info</label>
                     </div>
                 </div>
                 <div class="field">
@@ -105,8 +136,8 @@
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="comment" name="comment" class="hidden">
-                        <label for="comment">Comment</label>
+                        <input type="checkbox" id="canComment" name="canComment" class="hidden">
+                        <label for="canComment">Comment</label>
                     </div>
                 </div>
             </div>
@@ -117,8 +148,8 @@
             <!--buttons-->
             <div class="ui right aligned container">
                 <button class="ui button" type="button" onclick="window.history.go(-1)">Back</button>
-                <button class="ui orange button">Save</button>
-                <button class="ui teal button">Submit</button>
+                <button type="button" id="save-button" class="ui orange button">Save</button>
+                <button type="button" id="publish-button" class="ui teal button">Publish</button>
             </div>
         </form>
     </div>
@@ -126,7 +157,7 @@
 
 <!--Footer-->
 
-<footer class="ui inverted vertical segment m-padded-footer">
+<footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-footer">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
             <div class="three wide column">
@@ -167,7 +198,7 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
-<script src="../../static/lib/editorMD/editormd.min.js"></script>
+<script src="../../static/lib/editorMD/editormd.min.js" th:src="@{/lib/editorMD/editormd.min.js}"></script>
 <!--<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>-->
 
 <script type="text/javascript">
@@ -177,7 +208,7 @@
             width   : "100%",
             height  : 640,
             syncScrolling : "single",
-            path    : "../../static/lib/editorMD/lib/"
+            path    : "/lib/editorMD/lib/"
         });
     });
 </script>
@@ -197,9 +228,42 @@
                     type: 'empty',
                     prompt: 'Title can not be empty!'
                 }]
+            },
+            content : {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'content can not be empty!'
+                }]
+            },
+            topicId : {
+                identifier: 'topic.id',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Topic can not be empty!'
+                }]
+            },
+            imgUrl : {
+                identifier: 'imgUrl',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'ImgUrl can not be empty!'
+                }]
             }
         }
     });
+
+    $('#save-button').click(function () {
+        $('[name="published"]').val(false);
+        $('#blog-form').submit();
+    });
+
+    $('#publish-button').click(function () {
+        $('[name="published"]').val(true);
+        $('#blog-form').submit();
+    });
+
+
 </script>
 </body>
 </html>

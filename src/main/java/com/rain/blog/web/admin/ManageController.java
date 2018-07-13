@@ -3,7 +3,9 @@ package com.rain.blog.web.admin;
 
 import com.rain.blog.classes.Blog;
 import com.rain.blog.classes.BlogQuery;
+import com.rain.blog.classes.User;
 import com.rain.blog.service.BlogService;
+import com.rain.blog.service.TagService;
 import com.rain.blog.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
@@ -24,6 +29,9 @@ public class ManageController {
 
     @Autowired
     private TopicService topicService;
+
+    @Autowired
+    private TagService tagService;
 
     @GetMapping("/blogs")
     public String viewBlogs(BlogQuery blog,
@@ -40,5 +48,28 @@ public class ManageController {
                             Model model) {
         model.addAttribute("page", blogService.blogList(pageable, blog));
         return "admin/blogs :: blogList";
+    }
+
+    @GetMapping("/blogs/publish")
+    public String publish(Model model) {
+        model.addAttribute("topics", topicService.topicList());
+        model.addAttribute("tags", tagService.tagList());
+        model.addAttribute("blog", new Blog());
+        return "admin/publish";
+    }
+
+    @PostMapping("/blogs")
+    public String post(Blog blog, RedirectAttributes redirectAttributes, HttpSession session) {
+        blog.setUser((User) session.getAttribute("user"));
+        blog.setTopic(topicService.getTopic(blog.getTopic().getId()));
+        blog.setTags(tagService.tagList(blog.getTagIds()));
+
+        Blog b = blogService.saveBlog(blog);
+        if (b != null) {
+            redirectAttributes.addFlashAttribute("message", "Success!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Failed!");
+        }
+        return "redirect:/admin/blogs";
     }
 }
