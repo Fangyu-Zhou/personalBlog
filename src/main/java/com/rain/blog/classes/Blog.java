@@ -193,6 +193,28 @@ public class Blog {
         this.tagIds = tagIds;
     }
 
+    public void init() {
+        this.tagIds = tagListToString(tags);
+
+    }
+
+    private String tagListToString(List<Tag> tags) {
+        if (tags.isEmpty()) {
+            return tagIds;
+        }
+        StringBuffer sb = new StringBuffer();
+        boolean first = true;
+        for (Tag tag : tags) {
+            if (!first) {
+                sb.append(",");
+            } else {
+                first = false;
+            }
+            sb.append(tag.getId());
+        }
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         return "Blog{" +

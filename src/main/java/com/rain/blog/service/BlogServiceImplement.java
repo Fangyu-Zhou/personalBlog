@@ -62,9 +62,15 @@ public class BlogServiceImplement implements BlogService {
     @Override
     public Blog saveBlog(Blog blog) {
         /*新增一条blog需要给一些成员变量的初始值*/
-        blog.setCreateTime(new Date());
-        blog.setUpdateTime(new Date());
-        blog.setViews(0);
+        /*新增和修改blog需要区分开*/
+        if (blog.getId() == null) {
+            blog.setCreateTime(new Date());
+            blog.setUpdateTime(new Date());
+            blog.setViews(0);
+        } else {
+            blog.setUpdateTime(new Date());
+        }
+
         return blogRepository.save(blog);
     }
 

@@ -39,8 +39,8 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="active teal item">List</a>
-            <a href="#" class="item">Publish</a>
+            <a href="#" th:href="@{/admin/blogs}" class="active teal item">List</a>
+            <a href="#" th:href="@{/admin/blogs/publish}" class="item">Publish</a>
         </div>
     </div>
 </div>
@@ -107,7 +107,7 @@
                     <td th:text="${blog.published} ? 'Published' : 'Draft'">Yes</td>
                     <td th:text="${blog.updateTime}">June-23-2018 09:30</td>
                     <td>
-                        <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini teal basic button">Edit</a>
+                        <a href="#" th:href="@{/admin/blogs/{id}/publish(id=${blog.id})}" class="ui mini teal basic button">Edit</a>
                         <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui mini red basic button">Remove</a>
                     </td>
                 </tr>

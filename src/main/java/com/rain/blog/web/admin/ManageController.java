@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -58,6 +59,16 @@ public class ManageController {
         return "admin/publish";
     }
 
+    @GetMapping("/blogs/{id}/publish")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("topics", topicService.topicList());
+        model.addAttribute("tags", tagService.tagList());
+        Blog blog = blogService.getBlog(id);
+        blog.init();
+        model.addAttribute("blog", blog);
+        return "admin/publish";
+    }
+
     @PostMapping("/blogs")
     public String post(Blog blog, RedirectAttributes redirectAttributes, HttpSession session) {
         blog.setUser((User) session.getAttribute("user"));
@@ -70,6 +81,13 @@ public class ManageController {
         } else {
             redirectAttributes.addFlashAttribute("message", "Failed!");
         }
+        return "redirect:/admin/blogs";
+    }
+
+    @GetMapping("/blogs/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        blogService.deleteBlog(id);
+        redirectAttributes.addFlashAttribute("message", "successfully deleted!");
         return "redirect:/admin/blogs";
     }
 }
