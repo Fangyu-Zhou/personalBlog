@@ -48,19 +48,20 @@
 <!--Main Content-->
 <div class="m-container-small m-padded-XXL">
     <div class="ui container">
-        <form action="#" method="post" class="ui segment form">
+        <div class="ui segment form">
+            <input type="hidden" name="page"> <!--这里是取出form表单中的page变量给分页提供帮助-->
             <div class="inline fields">
                 <div class="seven wide field">
                     <input type="text" name="title" placeholder="Title">
                 </div>
                 <div class="four wide field">
                     <div class="ui selection dropdown">
-                        <input type="hidden" name="topic">
+                        <input type="hidden" name="topicId">
                         <i class="dropdown icon"></i>
                         <div class="default text">Topics</div>
                         <div class="menu">
-                            <div class="item" data-value="1">Learning</div>
-                            <div class="item" data-value="2">Casual</div>
+                            <div th:each="topic : ${topics}" class="item" data-value="1" th:data-value="${topic.id}" th:text="${topic.name}">Learning</div>
+                            <!--<div class="item" data-value="2">Casual</div>-->
                         </div>
                     </div>
                 </div>
@@ -72,13 +73,13 @@
                 </div>
 
                 <div class="field">
-                    <button class="ui mini teal basic button"><i class="search icon"></i>Search</button>
+                    <button type="button" id="search-button" class="ui mini teal basic button"><i class="search icon"></i>Search</button>
                 </div>
             </div>
-        </form>
+        </div>
 
-        <div class="ui teal segment">
-            <table class="ui table">
+        <div id="table-container" class="ui teal segment">
+            <table th:fragment="blogList" class="ui table">
                 <thead>
                 <tr>
                     <th></th>
@@ -90,24 +91,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>How to Learn Java</td>
-                    <td>Learning</td>
-                    <td>Yes</td>
-                    <td>June-23-2018 09:30</td>
+                <tr th:each="blog,iterStat : ${page.content}">
+                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${blog.title}">How to Learn Java</td>
+                    <td th:text="${blog.topic.name}">Learning</td>
+                    <td th:text="${blog.recommend} ? 'Yes' : 'No'">Yes</td>
+                    <td th:text="${blog.updateTime}">June-23-2018 09:30</td>
                     <td>
-                        <a href="#" class="ui mini teal basic button">Edit</a>
-                        <a href="#" class="ui mini red basic button">Remove</a>
+                        <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini teal basic button">Edit</a>
+                        <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui mini red basic button">Remove</a>
                     </td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
                     <th colspan="6">
-                        <div class="ui mini pagination menu">
-                            <a class="item">Back</a>
-                            <a class="item">Next</a>
+                        <div class="ui mini pagination menu" th:if="${page.totalPages} > 1">
+                            <a onclick="page(this)" th:attr="data-page=${page.number} - 1" class="item" th:unless="${page.first}">Back</a>
+                            <a onclick="page(this)" th:attr="data-page=${page.number} + 1" class="item" th:unless="${page.last}">Next</a>
                         </div>
                         <a href="#" class="ui right floated teal basic button"><i class="ui add icon"></i>Add</a>
                     </th>
@@ -169,6 +170,27 @@
     });
 
     $('.ui.dropdown').dropdown();
+
+    $("#search-button").click(function () {
+        loaddata();
+    });
+
+    /*这个JS是将page的值在页面之间传递*/
+    function page(obj) {
+        $("[name='page']").val($(obj).data("page"));
+        loaddata();
+    }
+
+    /*AJAX请求post*/
+    /*这里的#data-container是指id为data-container*/
+    function loaddata() {
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
+            title : $("[name='title']").val(),
+            topicId : $("[name='topicId']").val(),
+            recommend : $("[name='recommend']").prop('checked'),
+            page : $("[name='page']").val()
+        });
+    }
 </script>
 </body>
 </html>

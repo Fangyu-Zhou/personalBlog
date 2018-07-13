@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class TopicServiceImplement implements TopicService {
 
@@ -32,6 +34,12 @@ public class TopicServiceImplement implements TopicService {
     @Override
     public Page<Topic> topicList(Pageable pageable) {
         return topicRepository.findAll(pageable);
+    }
+
+    @Transactional
+    @Override
+    public List<Topic> topicList() {
+        return topicRepository.findAll();
     }
 
     @Transactional

@@ -4,6 +4,8 @@ import com.rain.blog.classes.Topic;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface TopicService {
     /*保存topic的方法*/
     Topic saveTopic(Topic topic);
@@ -13,6 +15,9 @@ public interface TopicService {
 
     /*分页查询应当返回Page类型的变量*/
     Page<Topic> topicList(Pageable pageable);
+
+    /*返回List Topic给blog分页查询时用*/
+    List<Topic> topicList();
 
     /*更新topic的方法*/
     Topic updateTopic(Long id, Topic topic);
