@@ -45,7 +45,7 @@ public class ManageController {
 
     @PostMapping("/blogs/search")
     public String search(BlogQuery blog,
-                            @PageableDefault(size = 2, sort="updateTime", direction = Sort.Direction.DESC) Pageable pageable,
+                            @PageableDefault(size = 5, sort="updateTime", direction = Sort.Direction.DESC) Pageable pageable,
                             Model model) {
         model.addAttribute("page", blogService.blogList(pageable, blog));
         return "admin/blogs :: blogList";
@@ -75,7 +75,14 @@ public class ManageController {
         blog.setTopic(topicService.getTopic(blog.getTopic().getId()));
         blog.setTags(tagService.tagList(blog.getTagIds()));
 
-        Blog b = blogService.saveBlog(blog);
+        Blog b;
+        if (blog.getId() == null) {
+            b = blogService.saveBlog(blog);
+        } else{
+            b = blogService.updateBlog(blog.getId(), blog);
+        }
+
+
         if (b != null) {
             redirectAttributes.addFlashAttribute("message", "Success!");
         } else {

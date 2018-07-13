@@ -5,6 +5,7 @@ import com.rain.blog.classes.Blog;
 import com.rain.blog.classes.BlogQuery;
 import com.rain.blog.classes.Topic;
 import com.rain.blog.dao.BlogRepository;
+import com.rain.blog.util.MyBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -82,7 +83,8 @@ public class BlogServiceImplement implements BlogService {
             throw new NotFoundException("Blog not Found this time!");
         }
 
-        BeanUtils.copyProperties(blog1, blog);
+        BeanUtils.copyProperties(blog, blog1, MyBeanUtils.getNullPropertyNames(blog));
+        blog1.setUpdateTime(new Date());
         return blogRepository.save(blog1);
     }
 

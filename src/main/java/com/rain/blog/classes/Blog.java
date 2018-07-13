@@ -42,6 +42,8 @@ public class Blog {
     @OneToMany(mappedBy = "blog")  /*Many一端是关系的维护端, 理解为One一端中对应*/
     private List<Comment> comments;
 
+    private String description;
+
     @Transient
     private String tagIds;
 
@@ -193,6 +195,14 @@ public class Blog {
         this.tagIds = tagIds;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void init() {
         this.tagIds = tagListToString(tags);
 
@@ -227,10 +237,16 @@ public class Blog {
                 ", tips=" + tips +
                 ", canShare=" + canShare +
                 ", canComment=" + canComment +
-                ", isPublished=" + published +
-                ", isRecommended=" + recommend+
+                ", published=" + published +
+                ", recommend=" + recommend +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", topic=" + topic +
+                ", tags=" + tags +
+                ", user=" + user +
+                ", comments=" + comments +
+                ", description='" + description + '\'' +
+                ", tagIds='" + tagIds + '\'' +
                 '}';
     }
 }
