@@ -9,7 +9,9 @@ import com.rain.blog.util.MyBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +59,18 @@ public class BlogServiceImplement implements BlogService {
                 return null;
             }
         }, pageable);
+    }
+
+    @Transactional
+    @Override
+    public Page<Blog> blogList(Pageable pageable) {
+        return blogRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Blog> listRecommendedBlog(Integer size) {
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "updateTime"));
+        return blogRepository.findTop(pageable);
     }
 
     @Transactional

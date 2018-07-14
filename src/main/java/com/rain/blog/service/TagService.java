@@ -21,6 +21,8 @@ public interface TagService {
     /*前端传回来的tagid的集合是一个String类型的变量*/
     List<Tag> tagList(String ids);
 
+    List<Tag> topTags(Integer size);
+
     /*更新topic的方法*/
     Tag updateTag(Long id, Tag tag);
 

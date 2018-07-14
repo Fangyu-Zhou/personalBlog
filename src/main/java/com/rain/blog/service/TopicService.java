@@ -19,6 +19,9 @@ public interface TopicService {
     /*返回List Topic给blog分页查询时用*/
     List<Topic> topicList();
 
+    /*这里是首页用的前几个Topic显示*/
+    List<Topic> topTopics(Integer size);
+
     /*更新topic的方法*/
     Topic updateTopic(Long id, Topic topic);
 
