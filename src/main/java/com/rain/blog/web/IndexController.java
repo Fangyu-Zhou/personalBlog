@@ -13,6 +13,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.jws.WebParam;
 
 /*********Controller********/
 @Controller
@@ -28,7 +33,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(@PageableDefault(size = 10, sort="updateTime", direction = Sort.Direction.DESC) Pageable pageable,
                         Model model) {
-        model.addAttribute("page", blogService.blogList(pageable));
+        model.addAttribute("page", blogService.publishedBlogList(pageable));
         model.addAttribute("topics", topicService.topTopics(5));
         model.addAttribute("tags", tagService.topTags(10));
         model.addAttribute("recommendBlogs", blogService.listRecommendedBlog(6));
@@ -36,13 +41,19 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/blogDetail")
-    public String blogDetail() {
-//        int i = 9 / 0;
-//        String blog = null;
-//        if (blog == null) {
-//            throw new NotFoundException("*******This blog is no longer here********");
-//        }
+    @PostMapping("/search")
+    public String search(@PageableDefault(size = 10, sort = "updateTime", direction = Sort.Direction.DESC) Pageable pageable,
+                         @RequestParam String query, /*这里是讲前端input标签内的query变量拿到后端*/
+                         Model model) {
+        model.addAttribute("page", blogService.blogList("%" + query + "%", pageable));
+        model.addAttribute("query", query);
+
+        return "search";
+    }
+
+    @GetMapping("/blog/{id}")
+    public String blogDetail(@PathVariable Long id, Model model) {
+        model.addAttribute("blog", blogService.getBlog(id));
         System.out.println("-----------------blog Detail------------------");
         return "blogDetail";
     }

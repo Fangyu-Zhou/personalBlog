@@ -14,6 +14,12 @@ public interface BlogService {
 
     Page<Blog> blogList(Pageable pageable);
 
+    /*用于user端显示published的blogs*/
+    Page<Blog> publishedBlogList(Pageable pageable);
+
+    /*全局搜索用，String query是查询关键字*/
+    Page<Blog> blogList(String query, Pageable pageable);
+
     List<Blog> listRecommendedBlog(Integer size);
 
     Blog saveBlog(Blog blog);

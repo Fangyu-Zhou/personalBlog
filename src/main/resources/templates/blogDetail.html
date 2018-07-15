@@ -14,7 +14,7 @@
 <body>
 
 <!--Navigation Part-->
-<nav class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="_fragments :: menu(0)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Blog&nbsp;Detail</h2>
@@ -43,36 +43,36 @@
         <div class="ui top attached segment">
             <div class="ui horizontal link list">
                 <div class="item">
-                    <img src="https://picsum.photos/100/100?image=1062" alt="" class="ui avatar image">
+                    <img src="https://picsum.photos/100/100?image=1062" th:src="@{${blog.user.avatar}}" alt="" class="ui avatar image">
                 </div>
                 <div class="item">
-                    <a href="#" class="header">Rain</a>
+                    <a href="#" class="header" th:text="${blog.user.nickname}">Rain</a>
                 </div>
                 <div class="item">
-                    Last Update: &nbsp; June-21-2018 9:30
+                    Last Update: &nbsp; <span th:text="${blog.updateTime}">June-21-2018 9:30</span>
                 </div>
                 <div class="item">
 
                 </div>
                 <div class="item">
-                    <i class="eye icon"></i>  100
+                    <i class="eye icon"></i>  <span th:text="${blog.views}">100</span>
                 </div>
             </div>
         </div>
         <!--Blog Image-->
         <div class="ui attached segment">
-            <img src="https://picsum.photos/800/450?image=1077" alt="" class="ui fluid rounded image">
+            <img src="https://picsum.photos/800/450?image=1077" th:src="@{${blog.imgUrl}}" alt="" class="ui fluid rounded image">
         </div>
         <!--Blog Contents-->
         <div class="ui attached padded segment">
             <div class="ui right aligned basic segment">
-                <div class="ui basic olive label">Reproduced</div>
+                <div class="ui basic olive label" th:text="${blog.original}">Reproduced</div>
             </div>
             <!--Title-->
-            <h2 class="ui center aligned header">How to learn Java</h2>
+            <h2 class="ui center aligned header" th:text="${blog.title}">How to learn Java</h2>
             <br>
             <!--Content-->
-            <div id="content" class="js-toc-content m-padded-lr-responsive typo typo-selection">
+            <div id="content" class="js-toc-content m-padded-lr-responsive typo typo-selection" th:text="${blog.content}">
                 <ol id="table">
                     <li><a href="#section1">关于 <i class="serif">Typo.css</i></a></li>
                     <li><a href="#section2">排版实例</a>
@@ -447,7 +447,7 @@ h5,h6{font-size:1em;}
             <br>
             <!--Tags-->
             <div class="m-padded-lr-responsive">
-                <div class="ui basic left pointing teal label">Learning</div>
+                <div class="ui basic left pointing teal label" th:each="tag : ${blog.tags}" th:text="${tag.name}">Learning</div>
             </div>
             <!--Thumbs Up-->
             <div class="ui center aligned basic segment">
@@ -456,7 +456,7 @@ h5,h6{font-size:1em;}
                 </button>
                 <div class="ui custom popup transition hidden">
                     <div class="ui image">
-                        <img src="../static/imgs/wechat.jpg" th:src="@{imgs/wechat.jpg}" alt="" class="ui rounded boarded image" style="width: 120px">
+                        <img src="../static/imgs/wechat.jpg" th:src="@{/imgs/wechat.jpg}" alt="" class="ui rounded boarded image" style="width: 120px">
                     </div>
                 </div>
             </div>
@@ -466,8 +466,8 @@ h5,h6{font-size:1em;}
             <div class="ui middle aligned stackable grid">
                 <div class="ui thirteen wide column">
                     <ui class="list">
-                        <li>Uploader: Rain</li>
-                        <li>Upload time: June-22-2018 21:02</li>
+                        <li>Uploader: <span th:text="${blog.user.nickname}">Rain</span></li>
+                        <li>Upload time: <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm')}">June-22-2018 21:02</span></li>
                         <li>Copyright: free to reproduce</li>
                     </ui>
                 </div>
@@ -590,6 +590,7 @@ h5,h6{font-size:1em;}
     </div>
 </div>
 
+<!--QRCode-->
 <div id="qrcode" class="ui wechat-qr flowing popup transition hidden" style="width: 120px;">
     <!--<img src="./static/imgs/wechat.jpg" alt="" class="ui rounded image" style="width: 120px">-->
 </div>

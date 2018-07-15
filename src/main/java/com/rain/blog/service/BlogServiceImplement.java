@@ -67,6 +67,17 @@ public class BlogServiceImplement implements BlogService {
         return blogRepository.findAll(pageable);
     }
 
+    public Page<Blog> publishedBlogList(Pageable pageable) {
+        return blogRepository.findAllPublished(pageable);
+    }
+
+    @Transactional
+    @Override
+    public Page<Blog> blogList(String query, Pageable pageable) {
+        return blogRepository.findByQuery(query, pageable);
+    }
+
+    @Transactional
     @Override
     public List<Blog> listRecommendedBlog(Integer size) {
         Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "updateTime"));
