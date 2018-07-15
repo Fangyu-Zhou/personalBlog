@@ -72,7 +72,8 @@
             <h2 class="ui center aligned header" th:text="${blog.title}">How to learn Java</h2>
             <br>
             <!--Content-->
-            <div id="content" class="js-toc-content m-padded-lr-responsive typo typo-selection" th:text="${blog.content}">
+            <!--*******************************************************************************这里th:text是输出转译过的text而utext是非转译的文本-->
+            <div id="content" class="js-toc-content m-padded-lr-responsive typo typo-selection" th:utext="${blog.content}">
                 <ol id="table">
                     <li><a href="#section1">关于 <i class="serif">Typo.css</i></a></li>
                     <li><a href="#section2">排版实例</a>
@@ -88,6 +89,19 @@
                         </ul>
                     </li>
                 </ol>
+                <pre>
+                    <code class="language-c">String a = &quot;abc&quot;;
+                        System.out.println(a);
+                        public static boolean[][] gen(){
+        boolean[][] grid = new boolean[10][10];
+        for(int r = 0; r < 10; r++)
+            for(int c = 0; c < 10; c++)
+                if( Math.random() > 0.7 )
+                    grid[r][c] = true;
+        return grid;
+    }
+                    </code>
+                </pre>
 
                 <h2 id="section1">一、关于 <i class="serif">Typo.css</i></h2>
 
@@ -656,7 +670,8 @@ h5,h6{font-size:1em;}
 
 
 <!--js code-->
-<script>
+<!--th:inline必须加 这样生成二维码时的取地址才有效-->
+<script th:inline="javascript">
     /*tocbot initialization*/
     tocbot.init({
         // Where to render the table of contents.
@@ -693,8 +708,11 @@ h5,h6{font-size:1em;}
         $(window).scrollTo(0,250)
     });
 
+    /*部署时需要重新定义serverUrl*/
+    var serverUrl = "localhost:8080"
+    var pageUrl =/*[[@{/blog/{id}(id=${blog.id})}]]*/"";
     var qrcode = new QRCode("qrcode", {
-        text: "http://jindo.dev.naver.com/collie",
+        text: serverUrl + pageUrl,
         width: 100,
         height: 100,
         colorDark : "#000000",

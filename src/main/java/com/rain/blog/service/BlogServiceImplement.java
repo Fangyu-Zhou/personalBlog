@@ -5,9 +5,11 @@ import com.rain.blog.classes.Blog;
 import com.rain.blog.classes.BlogQuery;
 import com.rain.blog.classes.Topic;
 import com.rain.blog.dao.BlogRepository;
+import com.rain.blog.util.MarkdownUtils;
 import com.rain.blog.util.MyBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,22 @@ public class BlogServiceImplement implements BlogService {
     @Override
     public Blog getBlog(Long id) {
         return blogRepository.findByid(id);
+    }
+
+    @Override
+    public Blog getDetailBlog(Long id) {
+        Blog blog = blogRepository.findByid(id);
+        if (blog == null) {
+            throw new NotFoundException("blog not found");
+        }
+        /*这里有一个小问题，我们不希望改变原数据库中的内容，即原数据库中应该仍然保持markdown文本格式而不是html格式*/
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog, b);
+        String content = b.getContent();
+        content = MarkdownUtils.markdownToHtmlExtensions(content);
+        System.out.println(content);
+        b.setContent(content);
+        return b;
     }
 
     @Transactional

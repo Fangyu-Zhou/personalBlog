@@ -10,6 +10,8 @@ import java.util.List;
 public interface BlogService {
     Blog getBlog(Long id);
 
+    Blog getDetailBlog(Long id);
+
     Page<Blog> blogList(Pageable pageable, BlogQuery blog);
 
     Page<Blog> blogList(Pageable pageable);
