@@ -1,6 +1,7 @@
 package com.rain.blog.classes;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,10 @@ public class Comment {
     /*数据库关系维护*/
     @ManyToOne
     private Blog blog;
+
     @OneToMany(mappedBy = "parentComment")
-    private List<Comment> replyComments;
+    private List<Comment> replyComments = new ArrayList<>();
+
     @ManyToOne
     private Comment parentComment;
 

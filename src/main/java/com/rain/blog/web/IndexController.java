@@ -4,6 +4,7 @@ import com.rain.blog.NotFoundException;
 import com.rain.blog.classes.BlogQuery;
 import com.rain.blog.classes.Topic;
 import com.rain.blog.service.BlogService;
+import com.rain.blog.service.CommentService;
 import com.rain.blog.service.TagService;
 import com.rain.blog.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class IndexController {
     private TopicService topicService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/")
     public String index(@PageableDefault(size = 10, sort="updateTime", direction = Sort.Direction.DESC) Pageable pageable,
@@ -54,6 +57,7 @@ public class IndexController {
     @GetMapping("/blog/{id}")
     public String blogDetail(@PathVariable Long id, Model model) {
         model.addAttribute("blog", blogService.getDetailBlog(id));
+//        model.addAttribute("comments", commentService.listCommentByBlogId(id));
         System.out.println("-----------------blog Detail------------------");
         return "blogDetail";
     }

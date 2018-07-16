@@ -486,107 +486,141 @@ h5,h6{font-size:1em;}
                     </ui>
                 </div>
                 <div class="ui three wide column">
-                    <img src="../static/imgs/wechat.jpg" th:src="@{imgs/wechat.jpg}" alt="" class="ui rounded bordered floated image" style="width: 110px;">
+                    <img src="../static/imgs/wechat.jpg" th:src="@{/imgs/wechat.jpg}" alt="" class="ui rounded bordered floated image" style="width: 110px;">
                 </div>
             </div>
         </div>
         <!--Reviews-->
+        <!--需要加一些隐含域去处理表单信息-->
+        <!--动态刷新该批评论区域需要用到之前后台管理时blog页面的方法 AJAX请求 JQuery方法-->
         <div id="comment-segment" class="ui bottom attached segment">
-            <div class="ui teal segment">
-                <div class="ui threaded comments">
-                    <h3 class="ui dividing header">Comments</h3>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/images/avatar/small/matt.jpg">
-                        </a>
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <span class="date">Today at 5:42PM</span>
+            <div id="comment-container" class="ui teal segment">
+                <!--显示评论区,给一个fragment只动态刷新该区域-->
+                <div th:fragment="commentList">
+                    <!--*******************************这里默认宽度是写死的数值，想要填充完全自定义100%宽度-->
+                    <div class="ui threaded comments" style="max-width: 100%;">
+                        <h3 class="ui dividing header">Comments</h3>
+                        <div class="comment" th:each="comment : ${comments}">
+                            <a class="avatar">
+                                <img src="/images/avatar/small/matt.jpg" th:src="${comment.avatar}">
+                            </a>
+                            <div class="content">
+                                <a class="author" th:text="${comment.nickName}">Matt</a>
+                                <div class="metadata">
+                                    <span class="date" th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                                </div>
+                                <div class="text" th:text="${comment.content}">
+                                    How artistic!
+                                </div>
+                                <div class="actions">
+                                    <a class="reply" data-commentid="2" data-commentnickname="Matt" th:attr="data-commentid=${comment.id}, data-commentnickname=${comment.nickName}" onclick="reply(this)">Reply</a>
+                                </div>
                             </div>
-                            <div class="text">
-                                How artistic!
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/images/avatar/small/elliot.jpg">
-                        </a>
-                        <div class="content">
-                            <a class="author">Elliot Fu</a>
-                            <div class="metadata">
-                                <span class="date">Yesterday at 12:30AM</span>
-                            </div>
-                            <div class="text">
-                                <p>This has been very useful for my research. Thanks as well!</p>
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
-                            </div>
-                        </div>
-                        <div class="comments">
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img src="/images/avatar/small/jenny.jpg">
-                                </a>
-                                <div class="content">
-                                    <a class="author">Jenny Hess</a>
-                                    <div class="metadata">
-                                        <span class="date">Just now</span>
-                                    </div>
-                                    <div class="text">
-                                        Elliot you are always so right :)
-                                    </div>
-                                    <div class="actions">
-                                        <a class="reply">Reply</a>
+                            <!--二级回复-->
+                            <div class="comments" th:if="${#arrays.length(comment.replyComments)} > 0">
+                                <div class="comment" th:each="reply : ${comment.replyComments}">
+                                    <a class="avatar">
+                                        <img src="/images/avatar/small/matt.jpg" th:src="${reply.avatar}">
+                                    </a>
+                                    <div class="content">
+                                        <!--这里需要做成a回复b(a@b)的形式-->
+                                        <a class="author" >
+                                            <span th:text="${reply.nickName}">A</span>&nbsp;<span class="m-text-color-teal">@&nbsp;</span><span th:text="${reply.parentComment.nickName}" class="m-text-color-teal">B</span></a>
+                                        <div class="metadata">
+                                            <span class="date" th:text="${#dates.format(reply.createTime, 'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                                        </div>
+                                        <div class="text" th:text="${reply.content}">
+                                            How artistic!
+                                        </div>
+                                        <div class="actions">
+                                            <a class="reply" data-commentid="2" data-commentnickname="Matt" th:attr="data-commentid=${reply.id}, data-commentnickname=${reply.nickName}" onclick="reply(this)">Reply</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="comment">
-                        <a class="avatar">
-                            <img src="/images/avatar/small/joe.jpg">
-                        </a>
-                        <div class="content">
-                            <a class="author">Joe Henderson</a>
-                            <div class="metadata">
-                                <span class="date">5 days ago</span>
+                        <!--/*-->
+                        <div class="comment">
+                            <a class="avatar">
+                                <img src="/images/avatar/small/elliot.jpg">
+                            </a>
+                            <div class="content">
+                                <a class="author">Elliot Fu</a>
+                                <div class="metadata">
+                                    <span class="date">Yesterday at 12:30AM</span>
+                                </div>
+                                <div class="text">
+                                    <p>This has been very useful for my research. Thanks as well!</p>
+                                </div>
+                                <div class="actions">
+                                    <a class="reply">Reply</a>
+                                </div>
                             </div>
-                            <div class="text">
-                                Dude, this is awesome. Thanks so much
-                            </div>
-                            <div class="actions">
-                                <a class="reply">Reply</a>
+                            <div class="comments">
+                                <div class="comment">
+                                    <a class="avatar">
+                                        <img src="/images/avatar/small/jenny.jpg">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author">Jenny Hess</a>
+                                        <div class="metadata">
+                                            <span class="date">Just now</span>
+                                        </div>
+                                        <div class="text">
+                                            Elliot you are always so right :)
+                                        </div>
+                                        <div class="actions">
+                                            <a class="reply">Reply</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="comment">
+                            <a class="avatar">
+                                <img src="/images/avatar/small/joe.jpg">
+                            </a>
+                            <div class="content">
+                                <a class="author">Joe Henderson</a>
+                                <div class="metadata">
+                                    <span class="date">5 days ago</span>
+                                </div>
+                                <div class="text">
+                                    Dude, this is awesome. Thanks so much
+                                </div>
+                                <div class="actions">
+                                    <a class="reply">Reply</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--*/-->
                     </div>
                 </div>
-                <div class="ui form">
-                    <div class="ui field">
-                        <textarea name="content" id="comments" cols="30" rows="10" placeholder="Please enter your reply here..."></textarea>
+            </div>
+            <!--这里是添加评论的表单-->
+            <div id="comment-form" class="ui form">
+                <input type="hidden" name="blog.id" th:value="${blog.id}">
+                <input type="hidden" name="parentComment.id" value="-1">
+                <div class="ui required field">
+                    <textarea name="content" id="comments" cols="30" rows="10" placeholder="Please enter your reply here..."></textarea>
 
+                </div>
+                <div class="ui required fields">
+                    <div class="ui field m-mobile-wide m-margin-bottom-small">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="nickName" placeholder="Name">
+                        </div>
                     </div>
-                    <div class="ui fields">
-                        <div class="ui field m-mobile-wide m-margin-bottom-small">
-                            <div class="ui left icon input">
-                                <i class="user icon"></i>
-                                <input type="text" name="nickname" placeholder="Name">
-                            </div>
+                    <div class="ui required field m-mobile-wide m-margin-bottom-small">
+                        <div class="ui left icon input">
+                            <i class="mail icon"></i>
+                            <input type="text" name="email" placeholder="Email">
                         </div>
-                        <div class="ui field m-mobile-wide m-margin-bottom-small">
-                            <div class="ui left icon input">
-                                <i class="mail icon"></i>
-                                <input type="text" name="email" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="right field m-mobile-wide m-margin-bottom-small">
-                            <button class="ui teal button m-mobile-wide"><i class="edit icon"></i>Reply</button>
-                        </div>
+                    </div>
+                    <div class="right field m-mobile-wide m-margin-bottom-small">
+                        <!--这里也是讲button设置成button属性同过AJAX请求来提交表单-->
+                        <button id="comment-submit-button" type="button" class="ui teal button m-mobile-wide"><i class="edit icon"></i>Reply</button>
                     </div>
                 </div>
             </div>
@@ -594,7 +628,7 @@ h5,h6{font-size:1em;}
     </div>
 </div>
 
-<!--Buttons-->
+<!--Aside Buttons-->
 <div class="m-position-buttons m-padded-tblr-M">
     <div class="ui vertical icon buttons ">
         <button type="button" class="ui catalog-button teal button">Catalog</button>
@@ -609,6 +643,7 @@ h5,h6{font-size:1em;}
     <!--<img src="./static/imgs/wechat.jpg" alt="" class="ui rounded image" style="width: 120px">-->
 </div>
 
+<!--index creator-->
 <div class="ui catalog-popup popup transition hidden" style="width: 240px">
     <ol class="js-toc">
 
@@ -652,6 +687,7 @@ h5,h6{font-size:1em;}
     </div>
 </footer>
 
+<!--cdn's-->
 <div th:replace="_fragments :: scripts">
     <!--cdn's-->
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
@@ -705,7 +741,7 @@ h5,h6{font-size:1em;}
     });
 
     $('.toTop-button').click(function () {
-        $(window).scrollTo(0,250)
+        $(window).scrollTo(0, 300);
     });
 
     /*部署时需要重新定义serverUrl*/
@@ -720,6 +756,78 @@ h5,h6{font-size:1em;}
         correctLevel : QRCode.CorrectLevel.H
     });
 
+    /*表单验证*/
+    $('.ui.form').form({
+        fields: {
+            nickname : {
+                identifier: 'nickName',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'nickname can not be empty!'
+                }]
+            },
+            content : {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'content can not be empty!'
+                }]
+            },
+            email : {
+                identifier: 'email',
+                rules: [{
+                    type: 'email',
+                    prompt: 'Please enter a validate email address'
+                }]
+            }
+        }
+    });
+
+    $('#comment-submit-button').click(function () {
+        var boo = $('.ui.form').form('validate form'); /*这里是通过JS来验证提交表单*/
+        if (boo) {
+            console.log("Validation success!");
+            postData();
+        } else {
+            console.log("Validation failed!");
+        }
+
+    });
+
+    /*逗号后面的内容是callback*/
+    function postData() {
+        $("#comment-container").load(/*[[@{/comments}]]*/"", {
+            "parentComment.id": $("[name='parentComment.id']").val(),
+            "blog.id": $("[name='blog.id']").val(),
+            "content": $("[name='content']").val(),
+            "nickName": $("[name='nickName']").val(),
+            "email": $("[name='email']").val()
+        }, function (responseTxt, statusTxt, xhr) {
+            clearContent();
+            $(window).scrollTo($('#comment-container'), 300);
+        });
+    }
+
+    /*submit之后一般会把之前comment里面填的内容删除 要用户重新输入*/
+    /*parentComment id 也要清除*/
+    function clearContent() {
+        $("[name='content']").val('');
+        $("[name='parentComment.id']").val(-1); /*初始给的是-1*/
+        $("[name='content']").attr("placeholder", "Please enter your reply here...");
+    }
+
+    /*这里处理的是二级回复的回复按钮， 点击之后@某人并将光标定格到下方评论输入区*/
+    function reply(obj) {
+        var commentId = $(obj).data('commentid');
+        var commentNickname = $(obj).data('commentnickname');
+        $("[name='content']").attr("placeholder", "@" + commentNickname).focus();
+        $("[name='parentComment.id']").val(commentId);
+        $(window).scrollTo($('#comment-form'), 300);
+    }
+
+    $(function () {
+        $("#comment-container").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/"");
+    });
 </script>
 </body>
 </html>
