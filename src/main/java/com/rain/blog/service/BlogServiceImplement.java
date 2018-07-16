@@ -18,10 +18,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import javax.transaction.TransactionScoped;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,6 +80,7 @@ public class BlogServiceImplement implements BlogService {
         }, pageable);
     }
 
+    @Transactional
     @Override
     public Page<Blog> blogListShow(Pageable pageable, BlogQuery blog) {
         return blogRepository.findAll(new Specification<Blog>() {
@@ -101,6 +100,23 @@ public class BlogServiceImplement implements BlogService {
                 predicates.add(criteriaBuilder.equal(root.<Boolean>get("published"), true));
 
                 /*查询语句SQL*/
+                criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+                return null;
+            }
+        }, pageable);
+    }
+
+    @Transactional
+    @Override
+    public Page<Blog> blogListShow(Pageable pageable, Long tagId) {
+        return blogRepository.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Join join = root.join("tags");
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(criteriaBuilder.equal(root.<Boolean>get("published"), true));
+                predicates.add(criteriaBuilder.equal(join.get("id"), tagId));
+
                 criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
                 return null;
             }

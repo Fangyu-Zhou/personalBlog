@@ -16,6 +16,9 @@ public interface BlogService {
 
     Page<Blog> blogListShow(Pageable pageable, BlogQuery blog);
 
+    Page<Blog> blogListShow(Pageable pageable, Long tagId);
+
+
     Page<Blog> blogList(Pageable pageable);
 
     /*用于user端显示published的blogs*/
