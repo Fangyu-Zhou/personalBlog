@@ -62,4 +62,10 @@ public class IndexController {
         System.out.println("-----------------blog Detail------------------");
         return "blogDetail";
     }
+
+    @GetMapping("/footer/latestBlogs")
+    public String latestBlogs(Model model) {
+        model.addAttribute("latestBlogs", blogService.listRecommendedBlog(3));
+        return "_fragments :: latestBlogs";
+    }
 }

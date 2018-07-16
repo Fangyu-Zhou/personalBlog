@@ -21,7 +21,7 @@
             <a href="#" th:href="@{/topics/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2}? 'active'"><i class="idea icon"></i>Topic</a>
             <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'"><i class="tags icon"></i>Tag</a>
             <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}? 'active'"><i class="clone icon"></i>Archive</a>
-            <a href="#" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="child icon"></i>About me</a>
+            <a href="#" th:href="@{/aboutMe}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="child icon"></i>About me</a>
             <div class="right m-item item m-mobile-hide">
                 <form name="search-form" action="#" th:action="@{/search}" method="post" target="_blank">
                     <div class="ui icon inverted transparent input">
@@ -54,10 +54,10 @@
             </div>
             <div class="four wide column">
                 <h3 class="inverted header m-text-spaced">Latest Blog</h3>
-                <div class="ui inverted link list">
-                    <a href="#" class="item">blog 1</a>
-                    <a href="#" class="item">blog 1</a>
-                    <a href="#" class="item">blog 1</a>
+                <div id="latestBlogs-container">
+                    <div class="ui inverted link list" th:fragment="latestBlogs">
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${latestBlogs}" th:text="${blog.title}">blog 1</a>
+                    </div>
                 </div>
             </div>
             <div class="four wide column">
@@ -69,7 +69,7 @@
             </div>
             <div class="five wide column">
                 <h3 class="inverted header m-text-spaced">This Blog</h3>
-                <p class="m-opacity-mini">About this blog</p>
+                <p class="m-opacity-mini">This blog is developed by me, I will use this personal blog to share my thinking, coding and learning!</p>
             </div>
         </div>
         <div class="ui inverted section divider"></div>
@@ -91,6 +91,9 @@
     <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
     <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
     <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script>
+        $('#latestBlogs-container').load(/*[[@{/footer/latestBlogs}]]*/"/footer/latestBlogs");
+    </script>
 </div>
 
 </body>

@@ -10,7 +10,7 @@
 <body>
 
 <!--Navigation Part-->
-<nav  class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="_fragments :: menu(5)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Archives</h2>
@@ -46,7 +46,7 @@
                     <div class="ui header">About me</div>
                 </div>
                 <div class="ui attached segment">
-                    <p class="m-text-thin m-text-lined">Fangyu Zhou, Master's Degree in Electrical and Computer Engineering, minor in Computer Science. I have done a lot of project's during the Master's programme</p>
+                    <p class="m-text-thin m-text-lined">Fangyu Zhou, Master's Degree in Electrical and Computer Engineering, minor in Computer Science at University of Florida.</p>
                     <p class="m-text-thin m-text-lined">Enjoy coding, enjoy life and always eager to learn new stuff!</p>
                 </div>
                 <div class="ui attached segment">
@@ -64,9 +64,9 @@
                     <div class="ui basic teal label m-margin-tiny">...</div>
                 </div>
                 <div class="ui bottom attached segment">
-                    <a href="#" class="ui circular icon button"><i class="github icon"></i></a>
+                    <a href="https://github.com/Fangyu-Zhou" target="_blank" class="ui circular icon button"><i class="github icon"></i></a>
                     <a href="#" class="ui wechat circular icon button"><i class="wechat icon"></i></a>
-                    <a href="#" class="ui linkedin circular icon button" data-content="https://www.linkedin.com/in/fangyu-zhou-50b735129/"><i class="linkedin icon"></i></a>
+                    <a href="https://www.linkedin.com/in/fangyu-zhou-50b735129/" target="_blank" class="ui linkedin circular icon button" data-content="https://www.linkedin.com/in/fangyu-zhou-50b735129/"><i class="linkedin icon"></i></a>
                 </div>
                 <div class="ui wechat-qr flowing popup transition hidden">
                     <img src="../static/imgs/wechat.jpg" alt="" class="ui rounded image" style="width: 120px">
@@ -114,12 +114,14 @@
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
+<div th:replace="_fragments :: scripts">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.2/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+</div>
 
 <script>
     $('.menu.toggle').click(function () {
