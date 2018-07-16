@@ -56,6 +56,7 @@ public class IndexController {
 
     @GetMapping("/blog/{id}")
     public String blogDetail(@PathVariable Long id, Model model) {
+        /*每次查看blog更新views要在每次get blogdetail的时候updateblog信息*/
         model.addAttribute("blog", blogService.getDetailBlog(id));
 //        model.addAttribute("comments", commentService.listCommentByBlogId(id));
         System.out.println("-----------------blog Detail------------------");

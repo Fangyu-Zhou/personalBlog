@@ -10,3 +10,5 @@ there is something more can bt done later:
     3. user end shows only the published blog
     4. read in details in markdownUtils!!! Learn how to utilize dependencies!!
     5. blogDetails url need to be redifined after deploying
+    6. add user to comment (allow user to register)
+    7. add comments manage for the admin(back end)

@@ -225,28 +225,29 @@ public class Blog {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", original='" + original + '\'' +
-                ", views=" + views +
-                ", tips=" + tips +
-                ", canShare=" + canShare +
-                ", canComment=" + canComment +
-                ", published=" + published +
-                ", recommend=" + recommend +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", topic=" + topic +
-                ", tags=" + tags +
-                ", user=" + user +
-                ", comments=" + comments +
-                ", description='" + description + '\'' +
-                ", tagIds='" + tagIds + '\'' +
-                '}';
-    }
+
+//    @Override
+//    public String toString() {
+//        return "Blog{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                ", content='" + content + '\'' +
+//                ", imgUrl='" + imgUrl + '\'' +
+//                ", original='" + original + '\'' +
+//                ", views=" + views +
+//                ", tips=" + tips +
+//                ", canShare=" + canShare +
+//                ", canComment=" + canComment +
+//                ", published=" + published +
+//                ", recommend=" + recommend +
+//                ", createTime=" + createTime +
+//                ", updateTime=" + updateTime +
+//                ", topic=" + topic +
+//                ", tags=" + tags +
+//                ", user=" + user +
+//                ", comments=" + comments +
+//                ", description='" + description + '\'' +
+//                ", tagIds='" + tagIds + '\'' +
+//                '}';
+//    }
 }

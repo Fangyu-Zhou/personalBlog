@@ -260,7 +260,7 @@
                             <a href="#" target="_blank" class="item" th:each="topic : ${topics}">
                                 <span th:text="${topic.name}">Topic1</span>
                                 <!--***********************************这里用到thymleaf模板工具arrays.length-->
-                                <div class="ui teal label" th:text="${#arrays.length(topic.blogs)}">10</div>
+                                <div class="ui teal label" th:text="${#arrays.length(topic.publishedBlogs)}">10</div>
                             </a>
                         </div>
                     </div>
@@ -279,7 +279,7 @@
                     </div>
                     <div class="ui teal segment">
                         <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-mini" th:each="tag : ${tags}">
-                            <span th:text="${tag.name}">tag name 1</span><div class="detail" th:text="${#arrays.length(tag.blogs)}">12</div>
+                            <span th:text="${tag.name}">tag name 1</span><div class="detail" th:text="${#arrays.length(tag.publishedBlogs)}">12</div>
                         </a>
                     </div>
                 </div>
@@ -288,7 +288,7 @@
                     <div class="ui secondary segment">
                         <i class="bookmark icon"></i>Recommend
                     </div>
-                    <div class="ui teal segment" th:each="recommendBlog : ${recommendBlogs}">
+                    <div class="ui segment" th:each="recommendBlog : ${recommendBlogs}">
                         <a href="#" th:href="@{/blog/{id}(id=${recommendBlog.id})}" target="_blank" class="m-text-color-black" th:text="${recommendBlog.title}">Blog title 1</a>
                     </div>
                 </div>

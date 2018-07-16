@@ -505,7 +505,10 @@ h5,h6{font-size:1em;}
                                 <img src="/images/avatar/small/matt.jpg" th:src="${comment.avatar}">
                             </a>
                             <div class="content">
-                                <a class="author" th:text="${comment.nickName}">Matt</a>
+                                <a class="author">
+                                    <span th:text="${comment.nickName}">Matt</span>
+                                    <div class="ui orange mini basic label m-padded-mini" th:if="${comment.adminComment}">Blogger</div>
+                                </a>
                                 <div class="metadata">
                                     <span class="date" th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
                                 </div>
@@ -517,6 +520,7 @@ h5,h6{font-size:1em;}
                                 </div>
                             </div>
                             <!--二级回复-->
+                            <!--****************************************注意 这里取的是comment而不是comments-->
                             <div class="comments" th:if="${#arrays.length(comment.replyComments)} > 0">
                                 <div class="comment" th:each="reply : ${comment.replyComments}">
                                     <a class="avatar">
@@ -525,7 +529,12 @@ h5,h6{font-size:1em;}
                                     <div class="content">
                                         <!--这里需要做成a回复b(a@b)的形式-->
                                         <a class="author" >
-                                            <span th:text="${reply.nickName}">A</span>&nbsp;<span class="m-text-color-teal">@&nbsp;</span><span th:text="${reply.parentComment.nickName}" class="m-text-color-teal">B</span></a>
+                                            <span th:text="${reply.nickName}">A</span>
+                                            <div class="ui orange mini basic label m-padded-mini" th:if="${reply.adminComment}">Blogger</div>
+                                            &nbsp;
+                                            <span class="m-text-color-teal">@&nbsp;</span>
+                                            <span th:text="${reply.parentComment.nickName}" class="m-text-color-teal">B</span>
+                                        </a>
                                         <div class="metadata">
                                             <span class="date" th:text="${#dates.format(reply.createTime, 'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
                                         </div>
@@ -609,13 +618,13 @@ h5,h6{font-size:1em;}
                     <div class="ui field m-mobile-wide m-margin-bottom-small">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" name="nickName" placeholder="Name">
+                            <input type="text" name="nickName" placeholder="Name" th:value="${session.user} != null ? ${session.user.nickname}">
                         </div>
                     </div>
                     <div class="ui required field m-mobile-wide m-margin-bottom-small">
                         <div class="ui left icon input">
                             <i class="mail icon"></i>
-                            <input type="text" name="email" placeholder="Email">
+                            <input type="text" name="email" placeholder="Email" th:value="${session.user} != null ? ${session.user.email}">
                         </div>
                     </div>
                     <div class="right field m-mobile-wide m-margin-bottom-small">
@@ -708,6 +717,10 @@ h5,h6{font-size:1em;}
 <!--js code-->
 <!--th:inline必须加 这样生成二维码时的取地址才有效-->
 <script th:inline="javascript">
+    /*这种初始化尽量放在script部分的上面*/
+    $(function () {
+        $("#comment-container").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/"comments/6");
+    });
     /*tocbot initialization*/
     tocbot.init({
         // Where to render the table of contents.
@@ -804,7 +817,7 @@ h5,h6{font-size:1em;}
             "email": $("[name='email']").val()
         }, function (responseTxt, statusTxt, xhr) {
             clearContent();
-            $(window).scrollTo($('#comment-container'), 300);
+            // $(window).scrollTo($('#comment-container'), 300);
         });
     }
 
@@ -825,9 +838,9 @@ h5,h6{font-size:1em;}
         $(window).scrollTo($('#comment-form'), 300);
     }
 
-    $(function () {
-        $("#comment-container").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/"");
-    });
+    // $(function () {
+    //     $("#comment-container").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/"");
+    // });
 </script>
 </body>
 </html>

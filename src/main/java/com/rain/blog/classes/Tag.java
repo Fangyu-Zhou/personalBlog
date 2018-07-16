@@ -2,6 +2,7 @@ package com.rain.blog.classes;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,9 @@ public class Tag {
     /*数据库关系维护*/
     @ManyToMany(mappedBy = "tags")
     private List<Blog> blogs;
+
+    @Transient
+    private List<Blog> publishedBlogs = new ArrayList<>();
 
     public Tag() {
     }
@@ -44,6 +48,24 @@ public class Tag {
 
     public void setBlogs(List<Blog> blogs) {
         this.blogs = blogs;
+    }
+
+    public List<Blog> getPublishedBlogs() {
+        initPublishedBlogs();
+        return publishedBlogs;
+    }
+
+    /*public void setPublishedBlogs(List<Blog> publishedBlogs) {
+        this.publishedBlogs = publishedBlogs;
+    }*/
+
+    private void initPublishedBlogs() {
+        List<Blog> source = this.getBlogs();
+        for (Blog b : source) {
+            if (b.isPublished() && !publishedBlogs.contains(b)) {
+                this.publishedBlogs.add(b);
+            }
+        }
     }
 
     @Override

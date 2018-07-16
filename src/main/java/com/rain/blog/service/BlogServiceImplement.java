@@ -38,6 +38,8 @@ public class BlogServiceImplement implements BlogService {
         return blogRepository.findByid(id);
     }
 
+
+    @Transactional
     @Override
     public Blog getDetailBlog(Long id) {
         Blog blog = blogRepository.findByid(id);
@@ -51,6 +53,7 @@ public class BlogServiceImplement implements BlogService {
         content = MarkdownUtils.markdownToHtmlExtensions(content);
 //        System.out.println(content);
         b.setContent(content);
+        blogRepository.updateViews(id);
         return b;
     }
 
@@ -71,6 +74,31 @@ public class BlogServiceImplement implements BlogService {
                 if (blog.isRecommend()) {
                     predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
                 }
+
+                /*查询语句SQL*/
+                criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+                return null;
+            }
+        }, pageable);
+    }
+
+    @Override
+    public Page<Blog> blogListShow(Pageable pageable, BlogQuery blog) {
+        return blogRepository.findAll(new Specification<Blog>() {
+            /*criteriaQuery变量相当于一个条件容器，将需要查询的条件放入该变量中，cB变量是具体设置条件表达式的*/
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (blog.getTitle() != null && !"".equals(blog.getTitle())) {
+                    predicates.add(criteriaBuilder.like(root.<String>get("title"), "%"+ blog.getTitle()+"%"));
+                }
+                if (blog.getTopicId() != null) {
+                    predicates.add(criteriaBuilder.equal(root.<Topic>get("topic").get("id"), blog.getTopicId()));
+                }
+                if (blog.isRecommend()) {
+                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
+                }
+                predicates.add(criteriaBuilder.equal(root.<Boolean>get("published"), true));
 
                 /*查询语句SQL*/
                 criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));

@@ -30,6 +30,10 @@ public class Comment {
     @ManyToOne
     private Comment parentComment;
 
+    private boolean adminComment;
+
+    /*should edit and add new function later*/
+//    private User user;
     public Comment() {
     }
 
@@ -105,15 +109,27 @@ public class Comment {
         this.parentComment = parentComment;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", nickName='" + nickName + '\'' +
-                ", email='" + email + '\'' +
-                ", content='" + content + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", createTime=" + createTime +
-                '}';
+    public boolean isAdminComment() {
+        return adminComment;
     }
+
+    public void setAdminComment(boolean adminComment) {
+        this.adminComment = adminComment;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Comment{" +
+//                "id=" + id +
+//                ", nickName='" + nickName + '\'' +
+//                ", email='" + email + '\'' +
+//                ", content='" + content + '\'' +
+//                ", avatar='" + avatar + '\'' +
+//                ", createTime=" + createTime +
+//                ", blog=" + blog +
+//                ", replyComments=" + replyComments +
+//                ", parentComment=" + parentComment +
+//                ", adminComment=" + adminComment +
+//                '}';
+//    }
 }

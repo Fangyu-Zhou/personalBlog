@@ -10,7 +10,7 @@
 <body>
 
 <!--Navigation Part-->
-<nav class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="_fragments :: menu(2)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Topics</h2>
@@ -42,226 +42,63 @@
                     <h3 class="ui teal header">Topics</h3>
                 </div>
                 <div class="right aligned column">
-                    <h2 class="ui orange header m-dis-inline-block m-text-thin">15  </h2> in total
+                    <h2 class="ui orange header m-dis-inline-block m-text-thin" th:text="${#arrays.length(topics)}">15  </h2> in total
                 </div>
             </div>
         </div>
         <!--topic icons and numbers-->
         <div class="ui attached segment m-padded-L">
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic teal button">Learning</a>
-                <div class="ui basic left pointing teal label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
-            </div>
-            <div class="ui labeled button m-margin-mini">
-                <a href="#" class="ui basic button">Casual</a>
-                <div class="ui basic left pointing label">10</div>
+            <div class="ui labeled button m-margin-mini" th:each="topic : ${topics}">
+                <a href="#" th:href="@{/topics/{id}(id=${topic.id})}" class="ui basic button" th:classappend="${topic.id==activeTopicId} ? 'teal'" th:text="${topic.name}">Learning</a>
+                <div class="ui basic left pointing label" th:classappend="${topic.id==activeTopicId} ? 'teal'" th:text="${#arrays.length(topic.publishedBlogs)}">10</div>
             </div>
         </div>
         <!--one by one items in selected topics-->
         <div class="ui teal top attached segment">
-            <div class="ui padded vertical segment m-padded-XL m-padded-lr-clear">
-                <div class="ui mobile reversed stackable grid">
+            <div class="ui padded vertical segment m-padded-XL m-padded-lr-clear" th:each="blog : ${page.content}">
+                <div class="ui middle aligned mobile reversed stackable grid" >
                     <div class="eleven wide column">
-                        <h3 class="ui header">Blog Title</h3>
-                        <p class="m-padded-M m-text-thin m-text-lined">The beginning part of this particular blog. Polymorphism is the ability of an object to take on many forms. The most common use of polymorphism in OOP occurs when a parent class reference is used to refer to a child class object.</p>
+                        <h3 class="ui header"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-text-color-black" th:text="${blog.title}">Blog Title</a></h3>
+                        <!--*****************************************************这里两条竖杠是用来连接字符串用的-->
+                        <p class="m-padded-M m-text-thin m-text-lined" th:text="${blog.description}">The beginning part of this particular blog. Polymorphism is the ability of an object to take on many forms. The most common use of polymorphism in OOP occurs when a parent class reference is used to refer to a child class object.</p>
                         <div class="ui stackable grid">
                             <div class="eleven wide column">
                                 <div class="ui small horizontal link list">
                                     <div class="item">
-                                        <img src="https://picsum.photos/100/100?image=1062" alt="" class="ui avatar image">
+                                        <img src="https://picsum.photos/100/100?image=1062" th:src="@{${blog.user.avatar}}" alt="" class="ui avatar image">
                                     </div>
                                     <div class="item">
-                                        <a href="#" class="header">Rain</a>
+                                        <a href="#" class="header" th:text="${blog.user.nickname}">Rain</a>
                                     </div>
                                     <div class="item">
-                                        <i class="calendar icon"></i> June-21-2018
+                                        <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">June-21-2018</span>
                                     </div>
                                     <div class="item">
-                                        <i class="eye icon"></i> 100
+                                        <i class="eye icon"></i><span th:text="${blog.views}">100</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui small basic teal label">Tag name</a>
+                                <a href="#" target="_blank" class="ui small basic teal label" th:text="${blog.topic.name}">Tag name</a>
                             </div>
                         </div>
                     </div>
                     <div class="right aligned five wide column">
-                        <a href="#" target="_blank">
-                            <img src="https://picsum.photos/600/400?image=1077" class="ui rounded image" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-XL m-padded-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="eleven wide column">
-                        <h3 class="ui header">Blog Title</h3>
-                        <p class="m-padded-M m-text-thin m-text-lined">The beginning part of this particular blog. Polymorphism is the ability of an object to take on many forms. The most common use of polymorphism in OOP occurs when a parent class reference is used to refer to a child class object.</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui small horizontal link list">
-                                    <div class="item">
-                                        <img src="https://picsum.photos/100/100?image=1062" alt="" class="ui avatar image">
-                                    </div>
-                                    <div class="item">
-                                        <a href="#" class="header">Rain</a>
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i> June-21-2018
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i> 100
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui small basic teal label">Tag name</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right aligned five wide column">
-                        <a href="#" target="_blank">
-                            <img src="https://picsum.photos/600/400?image=1077" class="ui rounded image" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-XL m-padded-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="eleven wide column">
-                        <h3 class="ui header">Blog Title</h3>
-                        <p class="m-padded-M m-text-thin m-text-lined">The beginning part of this particular blog. Polymorphism is the ability of an object to take on many forms. The most common use of polymorphism in OOP occurs when a parent class reference is used to refer to a child class object.</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui small horizontal link list">
-                                    <div class="item">
-                                        <img src="https://picsum.photos/100/100?image=1062" alt="" class="ui avatar image">
-                                    </div>
-                                    <div class="item">
-                                        <a href="#" class="header">Rain</a>
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i> June-21-2018
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i> 100
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui small basic teal label">Tag name</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right aligned five wide column">
-                        <a href="#" target="_blank">
-                            <img src="https://picsum.photos/600/400?image=1077" class="ui rounded image" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-XL m-padded-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="eleven wide column">
-                        <h3 class="ui header">Blog Title</h3>
-                        <p class="m-padded-M m-text-thin m-text-lined">The beginning part of this particular blog. Polymorphism is the ability of an object to take on many forms. The most common use of polymorphism in OOP occurs when a parent class reference is used to refer to a child class object.</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui small horizontal link list">
-                                    <div class="item">
-                                        <img src="https://picsum.photos/100/100?image=1062" alt="" class="ui avatar image">
-                                    </div>
-                                    <div class="item">
-                                        <a href="#" class="header">Rain</a>
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i> June-21-2018
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i> 100
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui small basic teal label">Tag name</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right aligned five wide column">
-                        <a href="#" target="_blank">
-                            <img src="https://picsum.photos/600/400?image=1077" class="ui rounded image" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-XL m-padded-lr-clear">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="eleven wide column">
-                        <h3 class="ui header">Blog Title</h3>
-                        <p class="m-padded-M m-text-thin m-text-lined">The beginning part of this particular blog. Polymorphism is the ability of an object to take on many forms. The most common use of polymorphism in OOP occurs when a parent class reference is used to refer to a child class object.</p>
-                        <div class="ui stackable grid">
-                            <div class="eleven wide column">
-                                <div class="ui small horizontal link list">
-                                    <div class="item">
-                                        <img src="https://picsum.photos/100/100?image=1062" alt="" class="ui avatar image">
-                                    </div>
-                                    <div class="item">
-                                        <a href="#" class="header">Rain</a>
-                                    </div>
-                                    <div class="item">
-                                        <i class="calendar icon"></i> June-21-2018
-                                    </div>
-                                    <div class="item">
-                                        <i class="eye icon"></i> 100
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui small basic teal label">Tag name</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right aligned five wide column">
-                        <a href="#" target="_blank">
-                            <img src="https://picsum.photos/600/400?image=1077" class="ui rounded image" alt="">
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+                            <img src="https://picsum.photos/600/400?image=1077" th:src="@{${blog.imgUrl}}" class="ui rounded image" alt="">
                         </a>
                     </div>
                 </div>
             </div>
         </div>
         <!--Back and Next-->
-        <div class="ui bottom attached segment">
+        <div class="ui bottom attached segment" th:if="${page.totalPages} > 1">
             <div class="ui middle aligned two column grid">
                 <div class="column">
-                    <a href="#" class="ui small teal basic button">Back</a>
+                    <a href="#" th:href="@{/(page=${page.number} - 1)}" class="ui small teal basic button">Back</a>
                 </div>
                 <div class="right aligned column">
-                    <a href="#" class="ui small teal basic button">Next</a>
+                    <a href="#" th:href="@{/(page=${page.number} + 1)}" class="ui small teal basic button">Next</a>
                 </div>
             </div>
         </div>
