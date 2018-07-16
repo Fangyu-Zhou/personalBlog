@@ -10,7 +10,7 @@
 <body>
 
 <!--Navigation Part-->
-<nav class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="_fragments :: menu(4)" class = "ui inverted attached segment m-padded-tb-mini m-shadow-small">
     <div class="ui container">
         <div class = "ui inverted secondary stackable menu">  <!--stackable adjust the menu for mobile device-->
             <h2 class="ui teal header item">Archives</h2>
@@ -42,35 +42,24 @@
                     <h3 class="ui teal header">Archives</h3>
                 </div>
                 <div class="right aligned column">
-                    <h2 class="ui orange header m-dis-inline-block m-text-thin">15  </h2> in total
+                    <h2 class="ui orange header m-dis-inline-block m-text-thin" th:text="${blogCount}">15  </h2> in total
                 </div>
             </div>
         </div>
         <!--Classify by year-->
-        <h2 class="ui center aligned header">2017</h2>
-        <div class="ui fluid vertical menu">
-            <a href="#" target="_blank" class="item">
+        <!--遍历Map得到的item实际上是一个一个Entry<String, List<>>-->
+        <th:block th:each="item : ${archiveMap}">
+            <h2 class="ui center aligned header" th:text="${item.key}">2017</h2>
+            <div class="ui fluid vertical menu">
+                <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${item.value}">
                 <span>
-                    Learning Notebook
-                    <div class="ui teal basic left pointing label m-padded-mini">June 22</div>
+                    <span th:text="${blog.title}">Learning Notebook</span>
+                    <div class="ui teal basic left pointing label m-padded-mini" th:text="${#dates.format(blog.updateTime, 'MMMdd')}">June 22</div>
                 </span>
-            <div class="ui olive basic label">Reproduced</div>
-        </a>
-            <a href="#" target="_blank" class="item">
-                <span>
-                    Learning Notebook
-                    <div class="ui teal basic left pointing label m-padded-mini">June 22</div>
-                </span>
-                <div class="ui olive basic label">Original</div>
-            </a>
-            <a href="#" target="_blank" class="item">
-                <span>
-                    Learning Notebook
-                    <div class="ui teal basic left pointing label m-padded-mini">June 22</div>
-                </span>
-                <div class="ui olive basic label">Reproduced</div>
-            </a>
-        </div>
+                    <div class="ui olive basic label" th:text="${blog.original}">Reproduced</div>
+                </a>
+            </div>
+        </th:block>
     </div>
 </div>
 
