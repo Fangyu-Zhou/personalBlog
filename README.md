@@ -12,3 +12,5 @@ there is something more can bt done later:
     5. blogDetails url need to be redifined after deploying
     6. add user to comment (allow user to register)
     7. add comments manage for the admin(back end)
+    
+Development is moved to Heroku Git
