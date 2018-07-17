@@ -464,7 +464,7 @@ h5,h6{font-size:1em;}
                 <div class="ui basic left pointing teal label" th:each="tag : ${blog.tags}" th:text="${tag.name}">Learning</div>
             </div>
             <!--Thumbs Up-->
-            <div class="ui center aligned basic segment">
+            <div class="ui center aligned basic segment" th:if="${blog.tips}">
                 <button id="payButton" class="ui basic orange circular button">
                     <i class="ui thumbs up outline icon"></i>Thumbs Up
                 </button>
@@ -493,7 +493,7 @@ h5,h6{font-size:1em;}
         <!--Reviews-->
         <!--需要加一些隐含域去处理表单信息-->
         <!--动态刷新该批评论区域需要用到之前后台管理时blog页面的方法 AJAX请求 JQuery方法-->
-        <div id="comment-segment" class="ui bottom attached segment">
+        <div id="comment-segment" class="ui bottom attached segment" th:if="${blog.canComment}">
             <div id="comment-container" class="ui teal segment">
                 <!--显示评论区,给一个fragment只动态刷新该区域-->
                 <div th:fragment="commentList">

@@ -251,13 +251,13 @@
                                 <i class="idea icon"></i>Top topics
                             </div>
                             <div class="right aligned column">
-                                <a href="#" target="_blank" >More</a>
+                                <a href="#" th:href="@{/topics/-1}" target="_blank" >More</a>
                             </div>
                         </div>
                     </div>
                     <div class="ui teal segment">
                         <div class="ui fluid vertical menu" >
-                            <a href="#" target="_blank" class="item" th:each="topic : ${topics}">
+                            <a href="#" th:href="@{/topics/{id}(id=${topic.id})}"  target="_blank" class="item" th:each="topic : ${topics}">
                                 <span th:text="${topic.name}">Topic1</span>
                                 <!--***********************************这里用到thymleaf模板工具arrays.length-->
                                 <div class="ui teal label" th:text="${#arrays.length(topic.publishedBlogs)}">10</div>
@@ -273,12 +273,12 @@
                                 <i class="tags icon"></i>Top tags
                             </div>
                             <div class="right aligned column">
-                                <a href="#" target="_blank" >More</a>
+                                <a href="#" th:href="@{/tags/-1}" target="_blank" >More</a>
                             </div>
                         </div>
                     </div>
                     <div class="ui teal segment">
-                        <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-mini" th:each="tag : ${tags}">
+                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" target="_blank" class="ui teal basic left pointing label m-margin-mini" th:each="tag : ${tags}">
                             <span th:text="${tag.name}">tag name 1</span><div class="detail" th:text="${#arrays.length(tag.publishedBlogs)}">12</div>
                         </a>
                     </div>
